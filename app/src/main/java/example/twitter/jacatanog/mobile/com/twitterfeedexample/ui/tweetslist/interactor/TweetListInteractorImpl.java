@@ -21,8 +21,6 @@ import retrofit2.Response;
 
 public class TweetListInteractorImpl implements TweetListInteractor {
 
-    private static final String NO_TWEETS_LOADED = "Tweets not loaded";
-
     @Override
     public void getTweetsForUser(String screenName, final OnTweetsLoadedListener listener) {
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
