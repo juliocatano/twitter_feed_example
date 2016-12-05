@@ -23,7 +23,6 @@ task clean(type: Delete) {
 }
 
 ext {
-    retrofit2Version = '2.1.0'
     picassoVersion = '2.5.2'
     supportLibraryVersion = '24.2.1'
     espressoVersion = '2.2.2'

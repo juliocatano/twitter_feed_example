@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.services.StatusesService;
+
 import java.util.List;
 
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
-import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.model.UserStatus;
-import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.services.ApiClientTwitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,19 +46,20 @@ public class TwitterFeedFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ApiClientTwitter.TwitterApiInterface apiService = ApiClientTwitter.getApiService();
-        Call<List<UserStatus>> statusesCall = apiService.getUserStatuses("juliocatano", "20");
-        statusesCall.enqueue(new Callback<List<UserStatus>>() {
+        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
+        StatusesService statusesService = twitterApiClient.getStatusesService();
+        Call<List<Tweet>> call = statusesService.userTimeline(null, "juliocatano", 20, null, null, null, null, null, null);
+        call.enqueue(new Callback<List<Tweet>>() {
             @Override
-            public void onResponse(Call<List<UserStatus>> call, Response<List<UserStatus>> response) {
+            public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(TwitterFeedFragment.this.getActivity(), "Got response!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "success!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<UserStatus>> call, Throwable t) {
-                Toast.makeText(TwitterFeedFragment.this.getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<Tweet>> call, Throwable t) {
+                Toast.makeText(getActivity(), "failure!", Toast.LENGTH_SHORT).show();
             }
         });
     }
