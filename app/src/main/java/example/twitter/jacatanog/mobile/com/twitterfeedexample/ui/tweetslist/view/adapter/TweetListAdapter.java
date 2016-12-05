@@ -79,6 +79,10 @@ public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.Twee
                         tweetContentLink.setText(tweet.entities.media.get(0).mediaUrl);
                     }
                 }
+                else {
+                    tweetContentLink.setVisibility(View.GONE);
+                    tweetContentImage.setVisibility(View.GONE);
+                }
             }
         }
     }
