@@ -2,6 +2,7 @@ package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toolbar;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -21,7 +22,9 @@ public class TwitterFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_twitter_feed);
+        setActionBar((Toolbar) findViewById(R.id.feed_toolbar));
 
         getSupportFragmentManager().beginTransaction()
                                    .add(R.id.fragment_container, new TwitterFeedFragment())

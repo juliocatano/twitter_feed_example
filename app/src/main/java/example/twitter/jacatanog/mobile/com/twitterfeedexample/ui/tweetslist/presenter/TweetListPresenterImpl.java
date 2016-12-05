@@ -2,9 +2,11 @@ package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.pr
 
 import com.twitter.sdk.android.core.models.Tweet;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
+import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.interactor.TweetListInteractor;
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.interactor.TweetListInteractorImpl;
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.view.TweetListView;
@@ -16,7 +18,7 @@ import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.vie
  */
 public class TweetListPresenterImpl implements TweetListPresenter, TweetListInteractor.OnTweetsLoadedListener {
 
-    private static final String DEFAULT_USER = "juliocatano";
+    private static final String DEFAULT_USER = "FinalFantasy";
 
     private String screenName;
     private TweetListView tweetListView;
@@ -51,8 +53,10 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
     }
 
     @Override
-    public void onTweetsLoadedError(String errorMessage) {
-        tweetListView.showErrorLoadingTweetList(errorMessage);
+    public void onTweetsLoadedError(Throwable exception) {
+        if (exception instanceof SocketTimeoutException) {
+            tweetListView.showErrorLoadingTweetList(tweetListView.getContext().getString(R.string.socket_time_out_error_message));
+        }
     }
 
     @Override

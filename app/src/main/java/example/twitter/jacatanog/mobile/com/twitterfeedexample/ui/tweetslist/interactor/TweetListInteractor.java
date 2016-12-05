@@ -15,7 +15,7 @@ public interface TweetListInteractor {
     interface OnTweetsLoadedListener {
         void onTweetsLoaded(List<Tweet> tweets);
 
-        void onTweetsLoadedError(String errorMessage);
+        void onTweetsLoadedError(Throwable exception);
     }
 
     /**

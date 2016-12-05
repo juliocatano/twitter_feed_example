@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Twitter Feed Example</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--tweet item-->
+    <string name="user_profile_picture_content_description">Profile Picture</string>
+    <string name="user_image_content_description">User Tweet Content Picture</string>
+
+    <!-- exception messages -->
+    <string name="socket_time_out_error_message">It looks like you have internet connection problems</string>
 </resources>

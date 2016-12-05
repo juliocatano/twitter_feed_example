@@ -4,30 +4,32 @@ package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.vi
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.services.StatusesService;
-import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
-import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import java.util.List;
 
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.presenter.TweetListPresenter;
+import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.presenter.TweetListPresenterImpl;
+import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.view.adapter.TweetListAdapter;
 
 /**
  * {@link Fragment} that shows the tweets of a certain user
  */
 public class TwitterFeedFragment extends Fragment implements TweetListView {
 
+    //Views
+    private RecyclerView tweetsFeedRecycler;
+    private TextView errorMessageTextView;
+
+    private TweetListPresenter presenter;
 
     public TwitterFeedFragment() {
         // Required empty public constructor
@@ -40,23 +42,30 @@ public class TwitterFeedFragment extends Fragment implements TweetListView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_twitter_feed, container, false);
+        View view = inflater.inflate(R.layout.fragment_twitter_feed, container, false);
+
+        tweetsFeedRecycler = (RecyclerView) view.findViewById(R.id.rv_tweet_list);
+
+        return view;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        presenter = new TweetListPresenterImpl(this);
+        presenter.getTweetList();
     }
 
     @Override
     public void showTweetList(List<Tweet> tweets) {
-
+        TweetListAdapter adapter = new TweetListAdapter(tweets);
+        tweetsFeedRecycler.setAdapter(adapter);
+        tweetsFeedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
     public void showErrorLoadingTweetList(String errorMessage) {
-
+        errorMessageTextView.setText(errorMessage);
     }
 
     @Override

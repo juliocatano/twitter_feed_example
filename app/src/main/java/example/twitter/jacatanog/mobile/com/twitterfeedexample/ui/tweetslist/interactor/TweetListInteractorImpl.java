@@ -27,7 +27,7 @@ public class TweetListInteractorImpl implements TweetListInteractor {
     public void getTweetsForUser(String screenName, final OnTweetsLoadedListener listener) {
         TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         StatusesService statusesService = twitterApiClient.getStatusesService();
-        Call<List<Tweet>> call = statusesService.userTimeline(null, "juliocatano", 20, null, null, null, null, null, null);
+        Call<List<Tweet>> call = statusesService.userTimeline(null, screenName, 20, null, null, null, null, null, null);
         call.enqueue(new Callback<List<Tweet>>() {
             @Override
             public void onResponse(Call<List<Tweet>> call, Response<List<Tweet>> response) {
@@ -38,7 +38,7 @@ public class TweetListInteractorImpl implements TweetListInteractor {
 
             @Override
             public void onFailure(Call<List<Tweet>> call, Throwable t) {
-                listener.onTweetsLoadedError(NO_TWEETS_LOADED);
+                listener.onTweetsLoadedError(t);
             }
         });
     }

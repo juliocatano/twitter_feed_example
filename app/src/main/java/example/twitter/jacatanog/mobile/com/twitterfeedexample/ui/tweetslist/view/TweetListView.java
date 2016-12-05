@@ -1,5 +1,7 @@
 package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.view;
 
+import android.content.Context;
+
 import com.twitter.sdk.android.core.models.Tweet;
 
 import java.util.List;
@@ -30,4 +32,11 @@ public interface TweetListView {
      * @param show true to show the loader
      */
     void showProgressLoader(boolean show);
+
+    /**
+     * Gets the context of the view
+     *
+     * @return returns the context of an {@link android.view.View}
+     */
+    Context getContext();
 }
