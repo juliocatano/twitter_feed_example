@@ -1,4 +1,4 @@
-package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.activity;
+package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
-import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.fragment.TwitterFeedFragment;
+import example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.view.TwitterFeedFragment;
 import io.fabric.sdk.android.Fabric;
 
 public class TwitterFeedActivity extends AppCompatActivity {

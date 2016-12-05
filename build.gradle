@@ -25,6 +25,7 @@ task clean(type: Delete) {
 ext {
     picassoVersion = '2.5.2'
     supportLibraryVersion = '24.2.1'
+    twitterSdkVersion = '2.2.0'
     espressoVersion = '2.2.2'
     junitVersion = '4.12'
 }

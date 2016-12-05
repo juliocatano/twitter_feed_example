@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.activity.TwitterFeedActivity">
+    tools:context="example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.main.TwitterFeedActivity">
     
     <Toolbar
         android:id="@+id/feed_toolbar"

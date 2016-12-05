@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.TwitterFeedActivity">
+        <activity android:name=".ui.main.TwitterFeedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

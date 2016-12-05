@@ -2,12 +2,19 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.fragment.TwitterFeedFragment">
+             tools:context="example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.view.TwitterFeedFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/error_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:visibility="gone"
+        tools:text="@string/hello_blank_fragment"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_tweet_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"/>
 
 </FrameLayout>
