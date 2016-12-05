@@ -1,5 +1,6 @@
 package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.view.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,9 +62,24 @@ public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.Twee
         }
 
         public void onBind(Tweet tweet) {
-            Picasso.with(itemView.getContext()).load(tweet.user.profileImageUrlHttps).into(profilePicture);
+            Context context = itemView.getContext();
+            Picasso.with(context).load(tweet.user.profileImageUrlHttps).into(profilePicture);
             userName.setText(tweet.user.screenName);
             tweetContent.setText(tweet.text);
+
+            if (tweet.entities != null) {
+                if (tweet.entities.media != null && tweet.entities.media.size() > 0) {
+                    if (tweet.entities.media.get(0).type.equals("photo")) {
+                        tweetContentLink.setVisibility(View.GONE);
+                        tweetContentImage.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(tweet.entities.media.get(0).mediaUrl).into(tweetContentImage);
+                    } else {
+                        tweetContentLink.setVisibility(View.VISIBLE);
+                        tweetContentImage.setVisibility(View.GONE);
+                        tweetContentLink.setText(tweet.entities.media.get(0).mediaUrl);
+                    }
+                }
+            }
         }
     }
 }
