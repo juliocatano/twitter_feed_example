@@ -44,7 +44,7 @@ dependencies {
     compile("com.twitter.sdk.android:twitter:$rootProject.ext.twitterSdkVersion@aar") {
         transitive = true;
     }
-    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    compile group: 'com.google.guava', name: 'guava', version: "$rootProject.ext.guavaVersion"
 
     androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'

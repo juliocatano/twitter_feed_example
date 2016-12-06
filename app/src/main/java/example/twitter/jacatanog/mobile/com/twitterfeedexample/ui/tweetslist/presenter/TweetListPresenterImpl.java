@@ -1,6 +1,7 @@
 package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.presenter;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.twitter.sdk.android.core.models.Tweet;
 
@@ -95,13 +96,18 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
 
     @Override
     public boolean onQueryTextChange(final String newText) {
-        List<Tweet> filteredTweets = FluentIterable.from(tweets)
-                                                   .filter(new Predicate<Tweet>() {
-                                                       @Override
-                                                       public boolean apply(Tweet input) {
-                                                           return input.text.toLowerCase().contains(newText.toLowerCase());
-                                                       }
-                                                   }).toList();
+        List<Tweet> filteredTweets;
+        if (!Strings.isNullOrEmpty(newText)) {
+            filteredTweets = FluentIterable.from(tweets)
+                                                       .filter(new Predicate<Tweet>() {
+                                                           @Override
+                                                           public boolean apply(Tweet input) {
+                                                               return input.text.toLowerCase().contains(newText.toLowerCase());
+                                                           }
+                                                       }).toList();
+        } else {
+            filteredTweets = tweets;
+        }
         tweetListView.showFilteredTweetList(filteredTweets);
         return true;
     }

@@ -14,11 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twitter.sdk.android.core.models.Tweet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
@@ -33,7 +32,6 @@ public class TwitterFeedFragment extends Fragment implements TweetListView {
 
     //Views
     private RecyclerView tweetsFeedRecycler;
-    private TextView errorMessageTextView;
 
     private TweetListPresenter presenter;
     private TweetListAdapter tweetsAdapter;
@@ -51,42 +49,43 @@ public class TwitterFeedFragment extends Fragment implements TweetListView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.fragment_twitter_feed, container, false);
-        tweetsFeedRecycler = (RecyclerView) view.findViewById(R.id.rv_tweet_list);
-        tweetsFeedRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    if (tweetLinearLayoutManager.findLastVisibleItemPosition() >= tweetsAdapter.getItemCount() - 2 /*start loading page when it is */) {
-                        presenter.getTweetList();
-                    }
-                }
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_twitter_feed, container, false);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (view != null){
+            tweetsFeedRecycler = (RecyclerView) view.findViewById(R.id.rv_tweet_list);
+            tweetsFeedRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        if (tweetLinearLayoutManager.findLastVisibleItemPosition() >=
+                                tweetsAdapter.getItemCount() - 2 /*start loading more tweets when two items away of the end*/) {
+                            presenter.getTweetList();
+                        }
+                    }
+                }
+            });
 
-        presenter = new TweetListPresenterImpl(this);
-        tweetsAdapter = new TweetListAdapter();
-        tweetLinearLayoutManager = new LinearLayoutManager(getContext());
+            presenter = new TweetListPresenterImpl(this);
+            tweetsAdapter = new TweetListAdapter();
+            tweetLinearLayoutManager = new LinearLayoutManager(getContext());
 
-        tweetsFeedRecycler.setAdapter(tweetsAdapter);
-        tweetsFeedRecycler.setLayoutManager(tweetLinearLayoutManager);
-
-        presenter.getTweetList();
+            tweetsFeedRecycler.setAdapter(tweetsAdapter);
+            tweetsFeedRecycler.setLayoutManager(tweetLinearLayoutManager);
+            presenter.getTweetList();
+        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.feed_menu, menu);
-
         final MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView= (SearchView) MenuItemCompat.getActionView(searchItem);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(presenter);
     }
 
@@ -113,7 +112,7 @@ public class TwitterFeedFragment extends Fragment implements TweetListView {
 
     @Override
     public void showErrorLoadingTweetList(String errorMessage) {
-        errorMessageTextView.setText(errorMessage);
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG);
     }
 
     @Override

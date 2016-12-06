@@ -26,9 +26,10 @@ public class TwitterFeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_twitter_feed);
         setSupportActionBar((Toolbar) findViewById(R.id.feed_toolbar));
 
-        getSupportFragmentManager().beginTransaction()
-                                   .add(R.id.fragment_container, new TwitterFeedFragment())
-                                   .commit();
-
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                                       .add(R.id.fragment_container, new TwitterFeedFragment())
+                                       .commit();
+        }
     }
 }
