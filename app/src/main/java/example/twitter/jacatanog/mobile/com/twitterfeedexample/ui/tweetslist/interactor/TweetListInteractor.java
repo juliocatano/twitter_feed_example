@@ -22,9 +22,14 @@ public interface TweetListInteractor {
      * Method that gets the tweets for a certain user using the Screen Name
      *
      * @param screenName Screen Name of the user that we want to bring the tweets
-     * @param listener   {@link OnTweetsLoadedListener} that will be called by the interactor
-     *                   when tweets are loaded.
      */
-    void getTweetsForUser(String screenName, OnTweetsLoadedListener listener);
+    void getTweetsForUser(String screenName);
+
+    /**
+     * Method that fetchs more tweets using the latest id obtained in last request
+     * @param maxId id of the last tweet obtained in the previous call
+     * @param screenName Screen Name of the user I want to retreive tweets
+     */
+    void getNextPage(long maxId, String screenName);
 
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.models.Tweet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
@@ -23,6 +24,10 @@ import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
 public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.TweetViewHolder> {
 
     private List<Tweet> tweetList;
+
+    public TweetListAdapter() {
+        this.tweetList = new ArrayList<Tweet>();
+    }
 
     public TweetListAdapter(List<Tweet> tweetList) {
         this.tweetList = tweetList;
@@ -44,7 +49,19 @@ public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.Twee
         return tweetList.size();
     }
 
-    public class TweetViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * Add tweets to the adapter to be drawn
+     * @param tweets tweets to be drawn
+     */
+    public void addTweets(List<Tweet> tweets) {
+        int previousSize = tweetList.size();
+        int tweetsAdded = tweets.size();
+
+        tweetList.addAll(tweets);
+        notifyItemRangeInserted(previousSize, tweetsAdded);
+    }
+
+    class TweetViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView profilePicture;
         private TextView userName;
@@ -52,7 +69,7 @@ public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.Twee
         private TextView tweetContentLink;
         private ImageView tweetContentImage;
 
-        public TweetViewHolder(View itemView) {
+        TweetViewHolder(View itemView) {
             super(itemView);
             profilePicture = (ImageView) itemView.findViewById(R.id.im_user_profile_picture);
             userName = (TextView) itemView.findViewById(R.id.tv_user_name);
@@ -61,7 +78,7 @@ public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.Twee
             tweetContentImage = (ImageView) itemView.findViewById(R.id.im_user_image_content);
         }
 
-        public void onBind(Tweet tweet) {
+        void onBind(Tweet tweet) {
             Context context = itemView.getContext();
             Picasso.with(context).load(tweet.user.profileImageUrlHttps).into(profilePicture);
             userName.setText(tweet.user.screenName);

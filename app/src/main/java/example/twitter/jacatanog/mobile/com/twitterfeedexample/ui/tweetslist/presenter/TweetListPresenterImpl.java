@@ -25,17 +25,19 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
     private TweetListInteractor tweetListInteractor;
     private List<Tweet> tweets;
 
+    private boolean isGettingTweets = false;
+
     public TweetListPresenterImpl(TweetListView listView){
         this.screenName = DEFAULT_USER;
         this.tweetListView = listView;
-        this.tweetListInteractor = new TweetListInteractorImpl();
+        this.tweetListInteractor = new TweetListInteractorImpl(this);
         this.tweets = new ArrayList<>();
     }
 
     public TweetListPresenterImpl(String screenName, TweetListView listView) {
         this.screenName = screenName;
         this.tweetListView = listView;
-        this.tweetListInteractor = new TweetListInteractorImpl();
+        this.tweetListInteractor = new TweetListInteractorImpl(this);
         this.tweets = new ArrayList<>();
     }
 
@@ -48,6 +50,8 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
 
     @Override
     public void onTweetsLoaded(List<Tweet> tweets) {
+        isGettingTweets = false;
+        this.tweets.addAll(tweets);
         tweetListView.showTweetList(tweets);
         tweetListView.showProgressLoader(false);
     }
@@ -61,8 +65,15 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
 
     @Override
     public void getTweetList() {
-        tweetListInteractor.getTweetsForUser(screenName, this);
-        tweetListView.showProgressLoader(true);
+        if (!isGettingTweets) {
+            if (tweets.size() > 0) {
+                tweetListInteractor.getNextPage(tweets.get(tweets.size() - 1).id, screenName);
+            } else {
+                tweetListInteractor.getTweetsForUser(screenName);
+            }
+            tweetListView.showProgressLoader(true);
+            isGettingTweets = true;
+        }
     }
 
     @Override

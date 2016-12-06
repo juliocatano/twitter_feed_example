@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.twitter.sdk.android.core.models.Tweet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import example.twitter.jacatanog.mobile.com.twitterfeedexample.R;
@@ -30,6 +31,8 @@ public class TwitterFeedFragment extends Fragment implements TweetListView {
     private TextView errorMessageTextView;
 
     private TweetListPresenter presenter;
+    private TweetListAdapter tweetsAdapter;
+    private LinearLayoutManager tweetLinearLayoutManager;
 
     public TwitterFeedFragment() {
         // Required empty public constructor
@@ -45,22 +48,37 @@ public class TwitterFeedFragment extends Fragment implements TweetListView {
         View view = inflater.inflate(R.layout.fragment_twitter_feed, container, false);
 
         tweetsFeedRecycler = (RecyclerView) view.findViewById(R.id.rv_tweet_list);
-
+        tweetsFeedRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    if (tweetLinearLayoutManager.findLastVisibleItemPosition() >= tweetsAdapter.getItemCount() - 2 /*start loading page when it is */) {
+                        presenter.getTweetList();
+                    }
+                }
+            }
+        });
         return view;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
+
         presenter = new TweetListPresenterImpl(this);
+        tweetsAdapter = new TweetListAdapter();
+        tweetLinearLayoutManager = new LinearLayoutManager(getContext());
+
+        tweetsFeedRecycler.setAdapter(tweetsAdapter);
+        tweetsFeedRecycler.setLayoutManager(tweetLinearLayoutManager);
+
         presenter.getTweetList();
     }
 
     @Override
     public void showTweetList(List<Tweet> tweets) {
-        TweetListAdapter adapter = new TweetListAdapter(tweets);
-        tweetsFeedRecycler.setAdapter(adapter);
-        tweetsFeedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        tweetsAdapter.addTweets(tweets);
     }
 
     @Override
