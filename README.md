@@ -14,6 +14,7 @@ or in the constructor of the presenter.
 - Something else to note is that there was a requirement that suggested that the search should also filter by users not only the text of the tweets.
 This was not done because we were pulling the statuses for 1 single user as the requirement said, so if we filtered by user we would only be able to
 search one single user even though it would have been pretty simple to implemented by creating an or inside this guava predicate:
+
 `new Predicate<Tweet>() {
       @Override
       public boolean apply(Tweet input) {
