@@ -1,5 +1,7 @@
 package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.presenter;
 
+import android.support.v7.widget.SearchView;
+
 import com.twitter.sdk.android.core.models.Tweet;
 
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.List;
  *
  * @author juliocatano
  */
-public interface TweetListPresenter {
+public interface TweetListPresenter extends SearchView.OnQueryTextListener {
 
     /**
      * Method that loads the tweet list and tells the view what to do with it
@@ -28,4 +30,10 @@ public interface TweetListPresenter {
      * Free's the presenter resources
      */
     void onDestroy();
+
+    @Override
+    boolean onQueryTextSubmit(String query);
+
+    @Override
+    boolean onQueryTextChange(String newText);
 }

@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Twitter Feed Example</string>
 
-    <!--tweet item-->
+    <!--Tweet Feed Fragment-->
+    <string name="search_action_title">Search</string>
+
+    <!--Tweet Item-->
     <string name="user_profile_picture_content_description">Profile Picture</string>
     <string name="user_image_content_description">User Tweet Content Picture</string>
 
-    <!-- exception messages -->
+    <!--Exception Messages-->
     <string name="socket_time_out_error_message">It looks like you have internet connection problems</string>
 </resources>

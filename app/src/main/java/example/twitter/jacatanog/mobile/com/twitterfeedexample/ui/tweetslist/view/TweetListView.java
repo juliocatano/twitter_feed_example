@@ -21,6 +21,12 @@ public interface TweetListView {
     void showTweetList(List<Tweet> tweets);
 
     /**
+     * Shows a filtered list of the tweets
+     * @param tweets list of tweets filtered
+     */
+    void showFilteredTweetList(List<Tweet> tweets);
+
+    /**
      * Shows an error message as a {@link android.widget.TextView} when there was an error loading tweets
      *
      * @param errorMessage the message that should be displayed

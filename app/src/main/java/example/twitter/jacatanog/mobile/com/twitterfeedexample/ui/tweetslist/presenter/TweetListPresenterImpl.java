@@ -1,5 +1,7 @@
 package example.twitter.jacatanog.mobile.com.twitterfeedexample.ui.tweetslist.presenter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.twitter.sdk.android.core.models.Tweet;
 
 import java.net.SocketTimeoutException;
@@ -27,7 +29,7 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
 
     private boolean isGettingTweets = false;
 
-    public TweetListPresenterImpl(TweetListView listView){
+    public TweetListPresenterImpl(TweetListView listView) {
         this.screenName = DEFAULT_USER;
         this.tweetListView = listView;
         this.tweetListInteractor = new TweetListInteractorImpl(this);
@@ -84,5 +86,23 @@ public class TweetListPresenterImpl implements TweetListPresenter, TweetListInte
     @Override
     public void onDestroy() {
         tweetListView = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(final String newText) {
+        List<Tweet> filteredTweets = FluentIterable.from(tweets)
+                                                   .filter(new Predicate<Tweet>() {
+                                                       @Override
+                                                       public boolean apply(Tweet input) {
+                                                           return input.text.toLowerCase().contains(newText.toLowerCase());
+                                                       }
+                                                   }).toList();
+        tweetListView.showFilteredTweetList(filteredTweets);
+        return true;
     }
 }

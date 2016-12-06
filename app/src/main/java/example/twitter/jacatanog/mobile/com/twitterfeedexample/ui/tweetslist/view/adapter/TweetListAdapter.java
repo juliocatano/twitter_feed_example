@@ -61,6 +61,12 @@ public class TweetListAdapter extends RecyclerView.Adapter<TweetListAdapter.Twee
         notifyItemRangeInserted(previousSize, tweetsAdded);
     }
 
+    public void setTweets(List<Tweet> tweets) {
+        tweetList.clear();
+        tweetList.addAll(tweets);
+        notifyDataSetChanged();
+    }
+
     class TweetViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView profilePicture;
